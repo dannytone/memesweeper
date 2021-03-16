@@ -44,8 +44,8 @@ private:
 	Vei2 ScreenToGrid(const Vei2& screenPos);
 	int CountNeighbourMemes(const Vei2& gridPos);
 private:
-	static constexpr int width = 10;
-	static constexpr int height = 10;
+	static constexpr int width = 9;
+	static constexpr int height = 9;
 	int x_offset;
 	int y_offset;
 	bool isFucked = false;
