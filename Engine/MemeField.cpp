@@ -85,8 +85,46 @@ void MemeField::Tile::Draw(const Vei2& screenPos, bool fucked, Graphics& gfx) co
 
 void MemeField::Tile::Reveal()
 {
-	assert(state == State::Hidden || state == State::Flagged);
+	//assert(state == State::Hidden || state == State::Flagged);
+
 	state = State::Revealed;
+	
+}
+
+void MemeField::RevealSurrounding(const Vei2& gridPos_in)
+{
+	const int looper = std::max(width, height);
+	for (int i = 0; i <= looper; i++)
+	{
+		for (Vei2 gridPos = { 0,0 }; gridPos.y < height; gridPos.y++)
+		{
+			for (gridPos.x = 0; gridPos.x < width; gridPos.x++)
+			{
+				if (TileAt(gridPos).IsRevealed() && TileAt(gridPos).GetNeighbourMemeCount() == 0)
+				{
+					const int xStart = std::max(0, gridPos.x - 1);
+					const int yStart = std::max(0, gridPos.y - 1);
+					const int xEnd = std::min(width - 1, gridPos.x + 1);
+					const int yEnd = std::min(height - 1, gridPos.y + 1);
+
+					for (Vei2 gridPos = { xStart,yStart }; gridPos.y <= yEnd; gridPos.y++)
+					{
+						for (gridPos.x = xStart; gridPos.x <= xEnd; gridPos.x++)
+						{
+							if (!TileAt(gridPos).IsFlagged())
+							{
+								TileAt(gridPos).Reveal();
+							}
+							
+
+						}
+					}
+				}
+
+			}
+		}
+	}
+	
 }
 
 void MemeField::Tile::ToggleFlag()
@@ -107,11 +145,17 @@ bool MemeField::Tile::IsFlagged() const
 	return state == State::Flagged;
 }
 
+int MemeField::Tile::GetNeighbourMemeCount()
+{
+	return nNeighbourMemes;
+}
+
 void MemeField::Tile::SetNeighbourMemeCount(int memeCount)
 {
 	assert(nNeighbourMemes == -1);
 	nNeighbourMemes = memeCount;
 }
+
 
 bool MemeField::Tile::IsRevealed() const
 {
@@ -122,6 +166,7 @@ MemeField::Tile& MemeField::TileAt(const Vei2& gridPos)
 {
 	return field[gridPos.y * width + gridPos.x];
 }
+
 
 const MemeField::Tile& MemeField::TileAt(const Vei2& gridPos) const
 {
@@ -212,11 +257,21 @@ void MemeField::OnRevealClick(const Vei2& screenPos)
 		Tile& tile = TileAt(gridPos);
 		if (!tile.IsRevealed() && !tile.IsFlagged())
 		{
-			tile.Reveal();
+			if (tile.GetNeighbourMemeCount() == 0)
+			{
+				tile.Reveal();
+				RevealSurrounding(gridPos);
+			}
+			else
+			{
+				tile.Reveal();
+			}
+			
 			if (tile.HasMeme())
 			{
 				isFucked = true;
 			}
+			
 		}
 	}
 }

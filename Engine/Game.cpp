@@ -26,7 +26,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	field( 8,gfx ),
+	field( 20,gfx ),
 	bev(SpriteCodex::baseColor)
 {
 }
