@@ -63,6 +63,10 @@ public:
 	{
 		DrawRect( rect.left,rect.top,rect.right,rect.bottom,c );
 	}
+	void DrawTriangleBL(int x0, int y0, int length, Color c);
+	void DrawTriangleTL(int x0, int y0, int length, Color c);
+	void DrawTriangleBR(int x0, int y0, int length, Color c);
+	void DrawTriangleTR(int x0, int y0, int length, Color c);
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;

@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "MemeField.h"
 #include "Graphics.h"
+#include "Beveller.h"
 
 class Game
 {
@@ -44,5 +45,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	MemeField field;
+	Beveller bev;
 	/********************************/
 };

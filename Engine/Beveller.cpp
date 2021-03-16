@@ -6,7 +6,7 @@ Beveller::Beveller(Color baseColor)
 	SetBaseColor(baseColor);
 }
 
-void Beveller::DrawOuterBevel(const RectF& rect, int size, Graphics& gfx) const
+void Beveller::DrawOuterBevel(const RectI& rect, int size, Graphics& gfx) const
 {
 	float top = rect.top;
 	float left = rect.left;
@@ -30,7 +30,7 @@ void Beveller::DrawOuterBevel(const RectF& rect, int size, Graphics& gfx) const
 	gfx.DrawTriangleBL(right - size, bottom-1, size, bottomColor);
 }
 
-void Beveller::DrawInnerBevel(const RectF& rect, int size, Graphics& gfx) const
+void Beveller::DrawInnerBevel(const RectI& rect, int size, Graphics& gfx) const
 {
 	float top = rect.top;
 	float left = rect.left;
@@ -54,16 +54,16 @@ void Beveller::DrawInnerBevel(const RectF& rect, int size, Graphics& gfx) const
 	gfx.DrawTriangleBL(right - size, bottom - 1, size, topColor);
 }
 
-void Beveller::DrawBevelledBrick(const RectF& rect, int size, Graphics& gfx) const
+void Beveller::DrawBevelledBrick(const RectI& rect, int size, Graphics& gfx) const
 {
 	DrawOuterBevel(rect, size, gfx);
 	gfx.DrawRect(rect.GetExpanded(-size), baseColor);
 }
 
-void Beveller::DrawBevelledFrame(const RectF& rect, int size, Graphics& gfx) const
+void Beveller::DrawBevelledFrame(const RectI& rect, int size, Graphics& gfx) const
 {
-	RectF inner = rect.GetExpanded(size);
-	RectF outer = rect.GetExpanded(size*2);
+	RectI inner = rect.GetExpanded(size);
+	RectI outer = rect.GetExpanded(size*2);
 	DrawInnerBevel(inner, size, gfx);
 	DrawOuterBevel(outer, size, gfx);
 }

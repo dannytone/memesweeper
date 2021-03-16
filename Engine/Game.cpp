@@ -20,12 +20,14 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include"SpriteCodex.h"
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	field( 8,gfx )
+	field( 8,gfx ),
+	bev(SpriteCodex::baseColor)
 {
 }
 
@@ -63,5 +65,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	bev.DrawBevelledFrame(field.GetRect(), 5, gfx);
 	field.Draw(gfx);
 }

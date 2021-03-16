@@ -1,6 +1,6 @@
 #pragma once
 #include "Graphics.h"
-#include "RectF.h"
+#include "RectI.h"
 
 class Beveller
 {
@@ -8,10 +8,10 @@ public:
 	Beveller() = default;
 	Beveller(Color baseColor);
 	void SetBaseColor(Color base);
-	void DrawOuterBevel(const RectF& rect, int size, Graphics& gfx) const;
-	void DrawInnerBevel(const RectF& rect, int size, Graphics& gfx) const;
-	void DrawBevelledBrick(const RectF& rect, int size, Graphics& gfx) const;
-	void DrawBevelledFrame(const RectF& rect, int size, Graphics& gfx) const;
+	void DrawOuterBevel(const RectI& rect, int size, Graphics& gfx) const;
+	void DrawInnerBevel(const RectI& rect, int size, Graphics& gfx) const;
+	void DrawBevelledBrick(const RectI& rect, int size, Graphics& gfx) const;
+	void DrawBevelledFrame(const RectI& rect, int size, Graphics& gfx) const;
 
 private:
 	Color baseColor;

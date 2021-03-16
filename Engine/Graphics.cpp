@@ -327,6 +327,61 @@ void Graphics::DrawRect( int x0,int y0,int x1,int y1,Color c )
 	}
 }
 
+void Graphics::DrawTriangleBL(int x_in, int y_in, int length, Color c)
+{
+	int i = x_in;
+	for (int y = y_in - length; y <= y_in; ++y)
+	{
+		for (int x = x_in; x < i; ++x)
+		{
+			PutPixel(x, y, c);
+
+		}
+		i++;
+	}
+}
+
+void Graphics::DrawTriangleTL(int x_in, int y_in, int length, Color c)
+{
+	int i = x_in + length;
+	for (int y = y_in; y < y_in + length + 1; ++y)
+	{
+		for (int x = x_in; x < i; ++x)
+		{
+			PutPixel(x, y, c);
+		}
+		i--;
+	}
+}
+
+void Graphics::DrawTriangleBR(int x_in, int y_in, int length, Color c)
+{
+	int i = x_in;
+	for (int y = y_in - length; y < y_in + 1; ++y)
+	{
+		for (int x = x_in; x > i; --x)
+		{
+			PutPixel(x, y, c);
+
+		}
+		i--;
+	}
+}
+
+void Graphics::DrawTriangleTR(int x_in, int y_in, int length, Color c)
+{
+	int i = x_in - length;
+	for (int y = y_in; y < y_in + length; ++y)
+	{
+		for (int x = x_in; x > i; --x)
+		{
+			PutPixel(x, y, c);
+
+		}
+		i++;
+	}
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception

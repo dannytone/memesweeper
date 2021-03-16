@@ -3,6 +3,7 @@
 #include <random>
 #include "Vei2.h"
 #include "SpriteCodex.h"
+#include "Beveller.h"
 #include <algorithm>
 
 void MemeField::Tile::SpawnMeme()
