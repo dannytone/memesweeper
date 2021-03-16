@@ -26,7 +26,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	field( 20,gfx ),
+	field( 5,gfx ),
 	bev(SpriteCodex::baseColor)
 {
 }
@@ -65,6 +65,10 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	if (field.win)
+	{
+		gfx.DrawRect(0, 0, gfx.ScreenWidth - 1, gfx.ScreenHeight - 1, { 0,100,0 });
+	}
 	bev.DrawBevelledFrame(field.GetRect(), 5, gfx);
 	field.Draw(gfx);
 }
