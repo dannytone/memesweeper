@@ -35,22 +35,20 @@ public:
 	RectI GetRect() const;
 	void OnRevealClick(const Vei2& screenPos);
 	void OnFlagClick(const Vei2& screenPos);
-	void SetFlagCount(const int value);
-	bool win = false;
+	bool GameIsWon() const;
+	bool GameIsLost() const;
 private:
 	Tile& TileAt(const Vei2& gridPos);
-	void RevealSurrounding(const Vei2& gridPos);
+	void RevealSurrounding();
 	const Tile& TileAt(const Vei2& gridPos) const;
 	Vei2 ScreenToGrid(const Vei2& screenPos);
 	int CountNeighbourMemes(const Vei2& gridPos);
 private:
-	static constexpr int width = 20;
-	static constexpr int height = 20;
+	static constexpr int width = 10;
+	static constexpr int height = 10;
 	int x_offset;
 	int y_offset;
 	bool isFucked = false;
 	int nMemes;
-	int nFlags = 0;
-	int nCorrectFlags = 0;
 	Tile field[width * height];
 };

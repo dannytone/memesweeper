@@ -162,9 +162,22 @@ int MemeField::CountNeighbourMemes(const Vei2& gridPos)
 	return count;
 }
 
-void MemeField::SetFlagCount(const int value)
+bool MemeField::GameIsWon() const
 {
-	nFlags = nFlags + value;
+	for (const Tile& t : field)
+	{
+		if ((t.HasMeme() && !t.IsFlagged()) ||
+			(!t.HasMeme() && !t.IsRevealed()))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool MemeField::GameIsLost() const
+{
+	return isFucked;
 }
 
 MemeField::MemeField(int nMemes_in, Graphics& gfx)
@@ -204,6 +217,7 @@ void MemeField::Draw(Graphics& gfx) const
 {
 	gfx.DrawRect(GetRect(), SpriteCodex::baseColor);
 	Vei2 offset = { x_offset,y_offset };
+
 	for (Vei2 gridPos = { 0,0 }; gridPos.y < height; gridPos.y++)
 	{
 		for (gridPos.x = 0; gridPos.x < width; gridPos.x++)
@@ -220,7 +234,7 @@ RectI MemeField::GetRect() const
 
 void MemeField::OnRevealClick(const Vei2& screenPos)
 {
-	if (!isFucked && !win)
+	if (!isFucked && !GameIsWon())
 	{
 		const Vei2 gridPos = ScreenToGrid(screenPos);
 		assert(gridPos.x >= 0 && gridPos.x < width && gridPos.y >= 0 && gridPos.y < height);
@@ -230,7 +244,7 @@ void MemeField::OnRevealClick(const Vei2& screenPos)
 			if (tile.GetNeighbourMemeCount() == 0)
 			{
 				tile.Reveal();
-				RevealSurrounding(gridPos);
+				RevealSurrounding();
 			}
 			else
 			{
@@ -248,7 +262,7 @@ void MemeField::OnRevealClick(const Vei2& screenPos)
 
 void MemeField::OnFlagClick(const Vei2& screenPos)
 {
-	if (!isFucked && !win)
+	if (!isFucked && !GameIsWon())
 	{
 		const Vei2 gridPos = ScreenToGrid(screenPos);
 		assert(gridPos.x >= 0 && gridPos.x < width&& gridPos.y >= 0 && gridPos.y < height);
@@ -257,32 +271,13 @@ void MemeField::OnFlagClick(const Vei2& screenPos)
 		{
 			tile.ToggleFlag();
 		}
-		
-		nFlags = 0;
-		nCorrectFlags = 0;
-
-		for (const Tile& t : field)
-		{
-			if (t.IsFlagged())
-			{
-				nFlags++;
-			}
-			if (t.IsFlagged() && t.HasMeme())
-			{
-				nCorrectFlags++;
-			}
-		}
-
-		if (nCorrectFlags == nMemes && nCorrectFlags == nFlags)
-		{
-			win = true;	
-		}
 	}
 }
 
-void MemeField::RevealSurrounding(const Vei2& gridPos_in)
+void MemeField::RevealSurrounding()
 {
 	const int looper = std::max(width, height);
+
 	for (int i = 0; i <= looper; i++)
 	{
 		for (Vei2 gridPos = { 0,0 }; gridPos.y < height; gridPos.y++)
